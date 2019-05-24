@@ -65,7 +65,6 @@ int main()
 
 int login()
 {
-	return 0;
 	cout << "欢迎使用药房销售系统，请先登录，或输出exit退出：\n";
 	string a;
 	while (1)
@@ -223,7 +222,7 @@ int search()
 		cin >> keyword;
 		cout << setw(46) << ' ' << "搜索结果" << setw(46) << ' ' << setw(0) << endl;
 		cout << "  id               名称                      生产日期            到期日期           库存数量          累计销量     \n";
-		for (long long i = 0; i < counter; i++)
+		for (int i = 1; i < counter; i++)
 		{
 			if (data[i].name.find(keyword) != string::npos)
 			{
@@ -397,7 +396,7 @@ int change()
 					}
 				}
 			}
-			data[id].produ_time = mktime(p1);
+			data[id].produ_time = time2;
 		}
 		else if (cmd == 4)
 		{
@@ -419,8 +418,7 @@ int change()
 					p1->tm_mon = m - 1;
 					p1->tm_mday = d;
 					time2 = mktime(p1);
-					time(&time1);
-					if (time2 > time1)
+					if (time2 < data[id].produ_time)
 					{
 						cout << "过期日期早于生产日期！请重新输入！\n";
 						cout << "请输入过期日期(年 月 日)(使用空格分隔)";
@@ -431,8 +429,8 @@ int change()
 						break;
 					}
 				}
-				data[id].due_time = mktime(p2);
-			}
+			}		
+			data[id].due_time = time2;
 		}
 		else if (cmd == 5)
 		{
@@ -708,7 +706,7 @@ int sim()
 			{
 				data[id].in_stack -= amount;
 				data[id].sell_amount += amount;
-				cout << "出售成功！";
+				cout<<"成功销售!";
 				Sleep(1000);
 			}
 		}
